@@ -44,7 +44,7 @@ func (p *Parser) Data() ([]*TimeData, error) {
         if err != nil {
             return nil, err
         }
-        duration, err := time.ParseDuration(record[5] + "s")
+        duration, err := time.ParseDuration(record[5] + "m")
         if err != nil {
             return nil, err
         }
