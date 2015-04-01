@@ -59,7 +59,7 @@ func (self *Aggregator) Aggregate() []*ReportTimeData {
 
         if !found {
             matchingTimeSheet := ReportTimeData{
-                data: []*parser.TimeData{},
+                timeSheets: []*parser.TimeData{},
             }
             retData = append(retData, matchingTimeSheet)
         }
