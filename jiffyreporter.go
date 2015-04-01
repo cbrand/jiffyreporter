@@ -3,12 +3,15 @@ package main
 import (
     "fmt"
     "os"
+    "strings"
+    "time"
 
     "github.com/codegangsta/cli"
 
     "github.com/cbrand/jiffyreporter/parser"
     "github.com/cbrand/jiffyreporter/aggregator"
     "github.com/cbrand/jiffyreporter/dumper"
+    "github.com/cbrand/jiffyreporter/filter"
 )
 
 const fileMode = 0660
@@ -16,6 +19,19 @@ const fileMode = 0660
 func printError(err error) {
     fmt.Println("Error")
     fmt.Println(err.Error())
+}
+
+func extractCustomers(customers string) []string {
+    cArray := strings.Split(customers, ",")
+    resArray := []string{}
+
+    for _, customerString := range cArray {
+        customerString = strings.TrimSpace(customerString)
+        if len(customerString) > 0 {
+            resArray = append(resArray, customerString)
+        }
+    }
+    return resArray
 }
 
 func main() {
@@ -26,8 +42,13 @@ func main() {
     app.Flags = []cli.Flag {
         cli.StringFlag{
             Name: "customer, c",
-            Value: "customer",
+            Value: "",
             Usage: "comma separated names of the customers which should be used.",
+        },
+        cli.IntFlag{
+            Name: "month, m",
+            Value: -1,
+            Usage: "The month which should be selected.",
         },
     }
     app.Action = func(c *cli.Context) {
@@ -58,7 +79,17 @@ func main() {
             return
         }
 
-        aggregated := aggregator.AggregateArray(timeData)
+        filterData := filter.NewFromArray(timeData)
+
+        customers := extractCustomers(c.String("customer"))
+        if len(customers) > 0 {
+            filterData.ForCustomers(customers...)
+        }
+        if c.Int("month") >= 1 && c.Int("month") <= 12 {
+            filterData.ForMonth(time.Month(c.Int("month")))
+        }
+
+        aggregated := aggregator.Aggregate(filterData.Data())
         dumper.New(aggregated).Write(dumpFile)
 
     }
