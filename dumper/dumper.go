@@ -12,9 +12,9 @@ import (
 
 type Dumper struct {
     data aggregator.ReportTimeDataSlice
-    file xlsx.File
-    sheet xlsx.Sheet
-    headerStyle xlsx.Style
+    file *xlsx.File
+    sheet *xlsx.Sheet
+    headerStyle *xlsx.Style
 }
 
 func New(data aggregator.ReportTimeDataSlice) *Dumper {
@@ -73,7 +73,7 @@ func (self *Dumper) generateSummary() {
     row.AddCell()
     cell = row.AddCell()
     cell.SetStyle(self.headerStyle)
-    cell.SetFormula("C2:C" + strconv.FormatInt(self.sheet.MaxRow, 10))
+    cell.SetFormula("C2:C" + strconv.FormatInt(int64(self.sheet.MaxRow), 10))
 }
 
 // writeLine generates the line for the passed data.
