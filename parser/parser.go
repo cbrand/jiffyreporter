@@ -20,7 +20,7 @@ func New(reader io.Reader) *Parser {
 // Parser provides the functions to extract the time
 // data from a csv file.
 type Parser struct {
-    reader csv.Reader
+    reader *csv.Reader
 }
 
 // Data parses the file and returns all time data
