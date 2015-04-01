@@ -5,6 +5,7 @@ import (
     "strconv"
 
     "github.com/tealeg/xlsx"
+    "github.com/weidewang/go-strftime"
 
     "github.com/cbrand/jiffyreporter/aggregator"
 )
@@ -82,7 +83,8 @@ func (self *Dumper) writeLine(item *aggregator.ReportTimeData) {
     cell := row.AddCell()
     cell.Value = item.Project()
     cell = row.AddCell()
-    cell.Value = item.Date().Format("2015-01-01")
+    date := item.Date()
+    cell.Value = strftime.Strftime(&date, "%Y-%m-%d")
     cell = row.AddCell()
     cell.SetFloatWithFormat(item.Duration().Hours(), "#,##0.00")
 }
