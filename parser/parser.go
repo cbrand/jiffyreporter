@@ -56,7 +56,7 @@ func (p *Parser) Data() ([]*TimeData, error) {
             Duration: duration,
             Note: record[7],
         }
-        timeData = append(TimeData, entry)
+        timeData = append(timeData, entry)
     }
     return timeData, nil
 }

@@ -26,6 +26,6 @@ type TimeData struct {
     Note string
 }
 
-func (self *TimeData) Date() *time.Time {
+func (self *TimeData) Date() time.Time {
     return helpers.DateFromTime(self.Start)
 }
