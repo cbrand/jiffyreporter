@@ -1,4 +1,4 @@
-package jiffyreporter
+package main
 
 import (
     "fmt"
@@ -33,6 +33,7 @@ func main() {
     app.Action = func(c *cli.Context) {
         if len(c.Args()) != 2 {
             fmt.Println("Need two arguments (from) and (to).")
+            return
         }
         fromCSV := c.Args().Get(0)
         toExcel := c.Args().Get(1)
