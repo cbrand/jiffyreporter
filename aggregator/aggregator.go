@@ -22,6 +22,7 @@ func NewFromArray(data []*parser.TimeData) *Aggregator {
         for _, item := range data {
             dataChannel <- item
         }
+        close(dataChannel)
     }()
     return New(dataChannel)
 }
