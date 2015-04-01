@@ -39,7 +39,7 @@ func (p *Parser) Data() ([]*TimeData, error) {
             return nil, err
         }
         end, err := time.Parse("2014-01-01 18:00:00", record[4])
-        if err = nil {
+        if err != nil {
             return nil, err
         }
         duration, err := time.ParseDuration(record[6] + "s")
