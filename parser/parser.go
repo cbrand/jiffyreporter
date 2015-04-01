@@ -4,6 +4,8 @@ import (
     "io"
     "encoding/csv"
     "time"
+
+    "github.com/pbnjay/strptime"
 )
 
 
@@ -34,15 +36,15 @@ func (p *Parser) Data() ([]*TimeData, error) {
 
     timeData := []*TimeData{}
     for _, record := range records {
-        start, err := time.Parse("2014-01-01 18:00:00", record[3])
+        start, err := strptime.Parse(record[3], "%Y-%m-%d %H:%M:%S")
         if err != nil {
             return nil, err
         }
-        end, err := time.Parse("2014-01-01 18:00:00", record[4])
+        end, err := strptime.Parse(record[4], "%Y-%m-%d %H:%M:%S")
         if err != nil {
             return nil, err
         }
-        duration, err := time.ParseDuration(record[6] + "s")
+        duration, err := time.ParseDuration(record[5] + "s")
         if err != nil {
             return nil, err
         }
@@ -54,7 +56,7 @@ func (p *Parser) Data() ([]*TimeData, error) {
             Start: start,
             End: end,
             Duration: duration,
-            Note: record[7],
+            Note: record[6],
         }
         timeData = append(timeData, entry)
     }
