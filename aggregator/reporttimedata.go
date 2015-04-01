@@ -39,7 +39,7 @@ func (self *ReportTimeData) AddTimeSheet(t *parser.TimeData) {
 // MatchesTimeData returns if the passed TimeData can be merged with this
 // given entry.
 func (self *ReportTimeData) MatchesTimeData(t *parser.TimeData) bool {
-    booleanChecks := bool{
+    booleanChecks := []bool{
         self.Customer() != t.Customer,
         self.Project() != t.Project,
         self.Note() != t.Note,
