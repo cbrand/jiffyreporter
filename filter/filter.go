@@ -1,6 +1,8 @@
 package filter
 
 import (
+    "time"
+
     "github.com/cbrand/jiffyreporter/parser"
 )
 
@@ -51,6 +53,22 @@ func (self *Filter) ForCustomers(customers ...string) {
                     if timeData.Customer == customer {
                         res <- timeData
                     }
+                }
+            }
+            close(res)
+        }()
+        return res
+    }
+    self.addFilter(filter)
+}
+
+func (self *Filter) ForMonth(month time.Month) {
+    filter := func(data chan *parser.TimeData) chan *parser.TimeData {
+        res := make(chan *parser.TimeData)
+        go func() {
+            for timeData := range data {
+                if timeData.Date().Month() == month {
+                    res <- timeData
                 }
             }
             close(res)
