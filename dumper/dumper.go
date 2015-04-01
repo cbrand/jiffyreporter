@@ -39,7 +39,7 @@ func (self *Dumper) generate() {
     self.sheet = self.file.AddSheet("timedata")
     self.generateHeader()
     self.generateFromData()
-    self.generateSummary()
+    //self.generateSummary()
 }
 
 // generateHeader prints the header entry.
