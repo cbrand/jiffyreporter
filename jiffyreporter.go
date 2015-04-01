@@ -44,7 +44,7 @@ func main() {
             return
         }
         defer f.Close()
-        dumpFile, err := os.OpenFile(toExcel, os.O_WRONLY, fileMode)
+        dumpFile, err := os.OpenFile(toExcel, os.O_WRONLY | os.O_CREATE, fileMode)
         if err != nil {
             printError(err)
             return
